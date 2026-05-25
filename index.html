@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workshop Anmeldung</title>
+    <style>
+      /* ── Reset & Base ── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0e0e0e;
+        --surface: #1a1a1a;
+        --card: #222222;
+        --border: #333333;
+        --accent: #c8f23a;
+        --accent2: #ff6b35;
+        --text: #f0f0f0;
+        --muted: #888888;
+        --danger: #e74c3c;
+        --warn: #f39c12;
+        --success: #2ecc71;
+        --radius: 12px;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* ── Header ── */
+      header {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: clamp(1.6rem, 5vw, 2.4rem);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--accent);
+      }
+
+      header p {
+        color: var(--muted);
+        margin-top: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      /* ── Main Layout ── */
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem 4rem;
+      }
+
+      .section-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 2.5rem 0 1rem;
+      }
+
+      /* ── Workshop Cards ── */
+      .workshops-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+
+      .card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .card-tag {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background: rgba(200, 242, 58, 0.1);
+        color: var(--accent);
+        border: 1px solid rgba(200, 242, 58, 0.3);
+        border-radius: 4px;
+        padding: 2px 8px;
+        width: fit-content;
+      }
+
+      .card-tag.music {
+        background: rgba(200, 242, 58, 0.1);
+        color: var(--accent);
+        border-color: rgba(200, 242, 58, 0.3);
+      }
+      .card-tag.food {
+        background: rgba(255, 107, 53, 0.1);
+        color: var(--accent2);
+        border-color: rgba(255, 107, 53, 0.3);
+      }
+      .card-tag.art {
+        background: rgba(155, 89, 182, 0.1);
+        color: #c39bd3;
+        border-color: rgba(155, 89, 182, 0.3);
+      }
+      .card-tag.sport {
+        background: rgba(46, 204, 113, 0.1);
+        color: #82e0aa;
+        border-color: rgba(46, 204, 113, 0.3);
+      }
+
+      .card h2 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .card-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .card-meta span {
+        font-size: 0.85rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      /* ── Capacity Bar ── */
+      .capacity {
+        margin-top: 0.2rem;
+      }
+
+      .capacity-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-bottom: 0.3rem;
+      }
+
+      .capacity-label .count {
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .bar-track {
+        background: var(--border);
+        border-radius: 99px;
+        height: 6px;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.5s ease;
+        background: var(--accent);
+      }
+
+      .bar-fill.warn {
+        background: var(--warn);
+      }
+      .bar-fill.full {
+        background: var(--danger);
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 99px;
+        width: fit-content;
+      }
+
+      .status-badge.open {
+        background: rgba(46, 204, 113, 0.15);
+        color: var(--success);
+      }
+      .status-badge.low {
+        background: rgba(243, 156, 18, 0.15);
+        color: var(--warn);
+      }
+      .status-badge.waitlist {
+        background: rgba(231, 76, 60, 0.15);
+        color: var(--danger);
+      }
+      .status-badge.closed {
+        background: rgba(136, 136, 136, 0.15);
+        color: var(--muted);
+      }
+
+      .status-badge::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      /* ── Register Button ── */
+      .btn-register {
+        margin-top: auto;
+        background: var(--accent);
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        padding: 0.65rem 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          opacity 0.2s,
+          transform 0.1s;
+        width: 100%;
+      }
+
+      .btn-register:hover:not(:disabled) {
+        opacity: 0.85;
+        transform: scale(1.01);
+      }
+
+      .btn-register:disabled {
+        background: var(--border);
+        color: var(--muted);
+        cursor: not-allowed;
+      }
+
+      .btn-register.waitlist-mode {
+        background: transparent;
+        color: var(--accent2);
+        border: 1px solid var(--accent2);
+      }
+
+      .btn-register.waitlist-mode:hover:not(:disabled) {
+        background: rgba(255, 107, 53, 0.1);
+      }
+
+      /* ── Loading skeleton ── */
+      .skeleton {
+        background: linear-gradient(
+          90deg,
+          var(--border) 25%,
+          #2a2a2a 50%,
+          var(--border) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 4px;
+        height: 12px;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* ── Modal ── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.2s,
+          visibility 0.2s;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        width: 100%;
+        max-width: 440px;
+        padding: 2rem;
+        transform: translateY(20px);
+        transition: transform 0.2s;
+      }
+
+      .modal-overlay.active .modal {
+        transform: translateY(0);
+      }
+
+      .modal h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+
+      .modal .modal-subtitle {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .modal .waitlist-note {
+        background: rgba(231, 76, 60, 0.1);
+        border: 1px solid rgba(231, 76, 60, 0.3);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+        color: #e74c3c;
+        margin-bottom: 1.2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.1rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--muted);
+        margin-bottom: 0.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .form-group input {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        color: var(--text);
+        font-size: 0.95rem;
+        font-family: inherit;
+        transition: border-color 0.2s;
+        outline: none;
+      }
+
+      .form-group input:focus {
+        border-color: var(--accent);
+      }
+
+      .form-group input::placeholder {
+        color: var(--muted);
+      }
+
+      .form-checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        margin-bottom: 1.3rem;
+      }
+
+      .form-checkbox input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        flex-shrink: 0;
+        cursor: pointer;
+        accent-color: var(--accent);
+      }
+
+      .form-checkbox label {
+        font-size: 0.82rem;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+      }
+
+      .btn-cancel {
+        flex: 1;
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.65rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+        font-family: inherit;
+      }
+
+      .btn-cancel:hover {
+        border-color: var(--text);
+        color: var(--text);
+      }
+
+      .btn-submit {
+        flex: 2;
+        background: var(--accent);
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        padding: 0.65rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        font-family: inherit;
+      }
+
+      .btn-submit:hover:not(:disabled) {
+        opacity: 0.85;
+      }
+      .btn-submit:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .btn-submit.loading::after {
+        content: "";
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(0, 0, 0, 0.3);
+        border-top-color: #000;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── Result Message ── */
+      .result-box {
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .result-box.success {
+        background: rgba(46, 204, 113, 0.1);
+        border: 1px solid rgba(46, 204, 113, 0.3);
+      }
+
+      .result-box.error {
+        background: rgba(231, 76, 60, 0.1);
+        border: 1px solid rgba(231, 76, 60, 0.3);
+      }
+
+      .result-box.waitlisted {
+        background: rgba(243, 156, 18, 0.1);
+        border: 1px solid rgba(243, 156, 18, 0.3);
+      }
+
+      .result-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .result-box h4 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .result-box p {
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+
+      .btn-close-result {
+        margin-top: 1.2rem;
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.6rem 1.5rem;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        transition: border-color 0.2s;
+      }
+
+      .btn-close-result:hover {
+        border-color: var(--text);
+      }
+
+      /* ── Footer ── */
+      footer {
+        text-align: center;
+        padding: 2rem;
+        color: var(--muted);
+        font-size: 0.8rem;
+        border-top: 1px solid var(--border);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════ HEADER ══════════════ -->
+    <header>
+      <h1>Workshop Anmeldung</h1>
+      <p>
+        Verbindliche Anmeldung für unsere Veranstaltungen &mdash; Plätze sind
+        begrenzt!
+      </p>
+    </header>
+
+    <!-- ══════════════ MAIN ══════════════ -->
+    <main>
+      <!-- Workshop Grid -->
+      <p class="section-title">Verfügbare Workshops</p>
+      <div class="workshops-grid" id="workshopsGrid">
+        <!-- Cards werden per JavaScript gerendert -->
+      </div>
+    </main>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer>
+      Bei Fragen schreib uns auf Instagram &bull; Anmeldungen sind verbindlich
+    </footer>
+
+    <!-- ══════════════ MODAL ══════════════ -->
+    <div
+      class="modal-overlay"
+      id="modalOverlay"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal">
+        <div id="modalContent">
+          <!-- wird dynamisch befüllt -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ SCRIPT ══════════════ -->
+    <script>
+      // ════════════════════════════════════════════════════
+      //  KONFIGURATION
+      //  Ersetze diese URL mit deiner echten Apps Script URL
+      //  (du bekommst sie beim Deployment des Scripts)
+      // ════════════════════════════════════════════════════
+      const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbyR993c0YdaXVDbwshNij4FX_r045CM0LomS7Z_1F1N-bNL56tQq1xqBtiun1L9-dvUAg/exec";
+
+      // ════════════════════════════════════════════════════
+      //  Workshop-Daten (Infos für die Anzeige)
+      // ════════════════════════════════════════════════════
+      const WORKSHOP_INFO = {
+        dj_workshop: {
+          title: "DJ Workshop",
+          tag: "Musik",
+          tagClass: "music",
+          icon: "🎧",
+          day: "Samstag",
+          time: "18:00 – 21:00 Uhr",
+          location: "TBA",
+        },
+        bierverkostung_1: {
+          title: "Bierverkostung",
+          tag: "Food & Drinks",
+          tagClass: "food",
+          icon: "🍺",
+          day: "Freitag",
+          time: "18:00 – 19:00 Uhr",
+          location: "TBA",
+        },
+        bierverkostung_2: {
+          title: "Bierverkostung",
+          tag: "Food & Drinks",
+          tagClass: "food",
+          icon: "🍺",
+          day: "Freitag",
+          time: "19:00 – 20:00 Uhr",
+          location: "TBA",
+        },
+        open_decks: {
+          title: "Open Decks Workshop",
+          tag: "Musik",
+          tagClass: "music",
+          icon: "🎛️",
+          day: "TBA",
+          time: "TBA",
+          location: "TBA",
+        },
+        paint_talk: {
+          title: "Paint & Talk",
+          tag: "Kunst",
+          tagClass: "art",
+          icon: "🎨",
+          day: "TBA",
+          time: "TBA",
+          location: "TBA",
+        },
+        yoga: {
+          title: "Yoga",
+          tag: "Sport",
+          tagClass: "sport",
+          icon: "🧘",
+          day: "TBA",
+          time: "TBA",
+          location: "TBA",
+        },
+      };
+
+      // ════════════════════════════════════════════════════
+      //  State
+      // ════════════════════════════════════════════════════
+      let capacityData = null;
+      let currentWorkshopId = null;
+      let isWaitlistMode = false;
+
+      // ════════════════════════════════════════════════════
+      //  Kapazitätsdaten laden
+      // ════════════════════════════════════════════════════
+      async function loadCapacity() {
+        try {
+          const res = await fetch(SCRIPT_URL, { method: "GET" });
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          capacityData = await res.json();
+          renderCards();
+        } catch (err) {
+          console.warn("Kapazitäten konnten nicht geladen werden:", err);
+          // Seite trotzdem mit Skeletons rendern, Buttons aktiviert
+          renderCards(true);
+        }
+      }
+
+      // ════════════════════════════════════════════════════
+      //  Karten rendern
+      // ════════════════════════════════════════════════════
+      function renderCards(offline = false) {
+        const grid = document.getElementById("workshopsGrid");
+        grid.innerHTML = "";
+
+        for (const [id, info] of Object.entries(WORKSHOP_INFO)) {
+          const cap = capacityData ? capacityData[id] : null;
+
+          // Status bestimmen
+          let statusText = "Lade...";
+          let statusClass = "";
+          let btnText = "Anmelden";
+          let btnClass = "";
+          let btnDisabled = false;
+          let barPercent = 0;
+          let barClass = "";
+          let freeText = "";
+
+          if (offline) {
+            statusText = "Anmeldung öffnen";
+            statusClass = "open";
+            freeText = "Verfügbarkeit nicht abrufbar";
+          } else if (cap) {
+            const pct = cap.mainCount / cap.maxMain;
+            barPercent = Math.min(100, pct * 100);
+
+            if (cap.mainFree > 0) {
+              if (cap.mainFree <= 3) {
+                statusText = `Nur noch ${cap.mainFree} Platz${cap.mainFree === 1 ? "" : "plätze"}!`;
+                statusClass = "low";
+                barClass = "warn";
+              } else {
+                statusText = `${cap.mainFree} Plätze frei`;
+                statusClass = "open";
+              }
+              freeText = `${cap.mainCount}/${cap.maxMain} Plätze belegt`;
+              btnText = "Jetzt anmelden";
+            } else if (cap.waitlistFree > 0) {
+              statusText = `Warteliste (${cap.waitlistFree} frei)`;
+              statusClass = "waitlist";
+              barClass = "full";
+              barPercent = 100;
+              freeText = `Ausgebucht · ${cap.waitlistCount}/${cap.maxWaitlist} Wartelistenplätze`;
+              btnText = "Warteliste";
+              btnClass = "waitlist-mode";
+            } else {
+              statusText = "Vollständig ausgebucht";
+              statusClass = "closed";
+              barClass = "full";
+              barPercent = 100;
+              freeText = "Keine Plätze mehr verfügbar";
+              btnText = "Ausgebucht";
+              btnDisabled = true;
+            }
+          }
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+      <span class="card-tag ${info.tagClass}">${info.tag}</span>
+      <h2>${info.icon} ${info.title}</h2>
+      <div class="card-meta">
+        <span>📅 ${info.day}</span>
+        <span>🕐 ${info.time}</span>
+      </div>
+      <div class="capacity">
+        ${
+          cap || offline
+            ? `
+          <div class="capacity-label">
+            <span>${freeText}</span>
+            ${cap ? `<span class="count">${cap.mainCount}/${cap.maxMain}</span>` : ""}
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill ${barClass}" style="width:${barPercent}%"></div>
+          </div>
+        `
+            : `<div class="skeleton"></div>`
+        }
+      </div>
+      ${cap || offline ? `<span class="status-badge ${statusClass}">${statusText}</span>` : ""}
+      <button
+        class="btn-register ${btnClass}"
+        ${btnDisabled ? "disabled" : ""}
+        onclick="openModal('${id}')"
+      >${btnText}</button>
+    `;
+          grid.appendChild(card);
+        }
+      }
+
+      // ════════════════════════════════════════════════════
+      //  Modal öffnen
+      // ════════════════════════════════════════════════════
+      function openModal(workshopId) {
+        currentWorkshopId = workshopId;
+        const info = WORKSHOP_INFO[workshopId];
+        const cap = capacityData ? capacityData[workshopId] : null;
+        isWaitlistMode = cap && cap.mainFree === 0 && cap.waitlistFree > 0;
+
+        const overlay = document.getElementById("modalOverlay");
+        const content = document.getElementById("modalContent");
+
+        content.innerHTML = `
+    <h3>${info.icon} ${info.title}</h3>
+    <p class="modal-subtitle">${info.day} &bull; ${info.time}</p>
+
+    ${
+      isWaitlistMode
+        ? `
+      <div class="waitlist-note">
+        ⚠️ Der Workshop ist ausgebucht. Du trägst dich auf die <strong>Warteliste</strong> ein und wirst kontaktiert, falls ein Platz frei wird.
+      </div>
+    `
+        : ""
+    }
+
+    <div id="modalForm">
+      <div class="form-group">
+        <label for="inputName">Name</label>
+        <input type="text" id="inputName" placeholder="Dein vollständiger Name" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label for="inputEmail">E-Mail</label>
+        <input type="email" id="inputEmail" placeholder="deine@email.de" autocomplete="email" />
+      </div>
+      <div class="form-checkbox">
+        <input type="checkbox" id="inputConsent" />
+        <label for="inputConsent">
+          Ich melde mich verbindlich an und verstehe, dass ich meinen Platz frühzeitig absagen soll, falls ich verhindert bin.
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
+        <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+          ${isWaitlistMode ? "Auf Warteliste" : "Anmelden"}
+        </button>
+      </div>
+    </div>
+  `;
+
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+
+        // Fokus auf erstes Eingabefeld
+        setTimeout(() => document.getElementById("inputName")?.focus(), 50);
+      }
+
+      // ════════════════════════════════════════════════════
+      //  Modal schließen
+      // ════════════════════════════════════════════════════
+      function closeModal() {
+        const overlay = document.getElementById("modalOverlay");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+        currentWorkshopId = null;
+      }
+
+      // Klick außerhalb schließt Modal
+      document
+        .getElementById("modalOverlay")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeModal();
+        });
+
+      // ESC schließt Modal
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeModal();
+      });
+
+      // ════════════════════════════════════════════════════
+      //  Formular absenden
+      // ════════════════════════════════════════════════════
+      async function submitForm() {
+        const name = document.getElementById("inputName")?.value.trim();
+        const email = document.getElementById("inputEmail")?.value.trim();
+        const consent = document.getElementById("inputConsent")?.checked;
+
+        if (!name) {
+          alert("Bitte gib deinen Namen ein.");
+          return;
+        }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          alert("Bitte gib eine gültige E-Mail-Adresse ein.");
+          return;
+        }
+        if (!consent) {
+          alert("Bitte bestätige die verbindliche Anmeldung.");
+          return;
+        }
+
+        const btn = document.getElementById("submitBtn");
+        btn.disabled = true;
+        btn.classList.add("loading");
+        btn.textContent = "Sende...";
+
+        try {
+          const res = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+              workshopId: currentWorkshopId,
+              name: name,
+              email: email,
+            }),
+          });
+
+          const data = await res.json();
+          showResult(data);
+
+          // Kapazitäten nach erfolgreicher Anmeldung neu laden
+          if (data.success) {
+            loadCapacity();
+          }
+        } catch (err) {
+          showResult({
+            success: false,
+            message: "Verbindungsfehler. Bitte versuche es erneut.",
+          });
+        }
+      }
+
+      // ════════════════════════════════════════════════════
+      //  Ergebnis anzeigen
+      // ════════════════════════════════════════════════════
+      function showResult(data) {
+        const content = document.getElementById("modalContent");
+        const info = WORKSHOP_INFO[currentWorkshopId] || {};
+
+        let boxClass, icon, title;
+
+        if (data.success && data.status === "Hauptliste") {
+          boxClass = "success";
+          icon = "✅";
+          title = "Anmeldung erfolgreich!";
+        } else if (data.success && data.status === "Warteliste") {
+          boxClass = "waitlisted";
+          icon = "⏳";
+          title = "Du bist auf der Warteliste!";
+        } else {
+          boxClass = "error";
+          icon = "❌";
+          title = "Anmeldung fehlgeschlagen";
+        }
+
+        content.innerHTML = `
+    <div class="result-box ${boxClass}">
+      <div class="result-icon">${icon}</div>
+      <h4>${title}</h4>
+      <p>${data.message}</p>
+      <button class="btn-close-result" onclick="closeModal()">Schließen</button>
+    </div>
+  `;
+      }
+
+      // ════════════════════════════════════════════════════
+      //  Start
+      // ════════════════════════════════════════════════════
+
+      // Zuerst Skeleton-Cards rendern (sofort sichtbar)
+      renderCards();
+
+      // Dann echte Daten laden
+      if (
+        SCRIPT_URL !==
+        "https://script.google.com/macros/s/AKfycbyR993c0YdaXVDbwshNij4FX_r045CM0LomS7Z_1F1N-bNL56tQq1xqBtiun1L9-dvUAg/exec"
+      ) {
+        loadCapacity();
+      } else {
+        // Demo-Modus: statische Beispieldaten
+        capacityData = {
+          dj_workshop: {
+            mainCount: 3,
+            maxMain: 10,
+            waitlistCount: 0,
+            maxWaitlist: 5,
+            mainFree: 7,
+            waitlistFree: 5,
+          },
+          bierverkostung_1: {
+            mainCount: 12,
+            maxMain: 15,
+            waitlistCount: 0,
+            maxWaitlist: 5,
+            mainFree: 3,
+            waitlistFree: 5,
+          },
+          bierverkostung_2: {
+            mainCount: 15,
+            maxMain: 15,
+            waitlistCount: 2,
+            maxWaitlist: 5,
+            mainFree: 0,
+            waitlistFree: 3,
+          },
+          open_decks: {
+            mainCount: 6,
+            maxMain: 6,
+            waitlistCount: 3,
+            maxWaitlist: 3,
+            mainFree: 0,
+            waitlistFree: 0,
+          },
+          paint_talk: {
+            mainCount: 8,
+            maxMain: 30,
+            waitlistCount: 0,
+            maxWaitlist: 10,
+            mainFree: 22,
+            waitlistFree: 10,
+          },
+          yoga: {
+            mainCount: 25,
+            maxMain: 30,
+            waitlistCount: 0,
+            maxWaitlist: 10,
+            mainFree: 5,
+            waitlistFree: 10,
+          },
+        };
+        renderCards();
+      }
+    </script>
+  </body>
+</html>
