@@ -939,11 +939,8 @@
 
       // Dann echte Daten laden
       if (
-        SCRIPT_URL !==
-        "https://script.google.com/macros/s/AKfycbyR993c0YdaXVDbwshNij4FX_r045CM0LomS7Z_1F1N-bNL56tQq1xqBtiun1L9-dvUAg/exec"
+        SCRIPT_URL === "DEINE_APPS_SCRIPT_URL_HIER_EINFÜGEN"
       ) {
-        loadCapacity();
-      } else {
         // Demo-Modus: statische Beispieldaten
         capacityData = {
           dj_workshop: {
@@ -996,6 +993,9 @@
           },
         };
         renderCards();
+      } else {
+        // Echte Daten vom Apps Script laden
+        loadCapacity();
       }
     </script>
   </body>
