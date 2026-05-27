@@ -137,6 +137,16 @@
         color: #82e0aa;
         border-color: rgba(46, 204, 113, 0.3);
       }
+      .card-tag.tanz {
+        background: rgba(232, 67, 147, 0.1);
+        color: #f48fb1;
+        border-color: rgba(232, 67, 147, 0.3);
+      }
+      .card-tag.bildung {
+        background: rgba(52, 152, 219, 0.1);
+        color: #85c1e9;
+        border-color: rgba(52, 152, 219, 0.3);
+      }
 
       .card h2 {
         font-size: 1.1rem;
@@ -649,6 +659,87 @@
           time: "14-15Uhr",
           location: "Halle 8",
         },
+        sexuelle_gewalt: {
+          title: "Sexuelle Gewalt gegen Frauen",
+          tag: "Bildung",
+          tagClass: "bildung",
+          icon: "💜",
+          day: "Donnerstag",
+          time: "17:00 – 18:00 Uhr",
+          location: "TBA",
+        },
+        kommunikation: {
+          title: "Kommunikationsworkshop",
+          tag: "Bildung",
+          tagClass: "bildung",
+          icon: "💬",
+          day: "Freitag",
+          time: "18:30 – 19:30 Uhr",
+          location: "TBA",
+        },
+        zumba_do: {
+          title: "Zumba",
+          tag: "Tanz",
+          tagClass: "tanz",
+          icon: "💃",
+          day: "Donnerstag",
+          time: "16:00 – 17:00 Uhr",
+          location: "TBA",
+        },
+        zumba_fr: {
+          title: "Zumba",
+          tag: "Tanz",
+          tagClass: "tanz",
+          icon: "💃",
+          day: "Freitag",
+          time: "16:00 – 17:00 Uhr",
+          location: "TBA",
+        },
+        bachata_do: {
+          title: "Bachata",
+          tag: "Tanz",
+          tagClass: "tanz",
+          icon: "🎶",
+          day: "Donnerstag",
+          time: "17:00 – 18:00 Uhr",
+          location: "TBA",
+        },
+        bachata_fr: {
+          title: "Bachata",
+          tag: "Tanz",
+          tagClass: "tanz",
+          icon: "🎶",
+          day: "Freitag",
+          time: "17:00 – 18:00 Uhr",
+          location: "TBA",
+        },
+        selbstverteidigung: {
+          title: "Selbstverteidigungskurs",
+          tag: "Sport",
+          tagClass: "sport",
+          icon: "🥋",
+          day: "Freitag",
+          time: "18:30 – 19:30 Uhr",
+          location: "TBA",
+        },
+        kinderyoga_1: {
+          title: "Kinderyoga",
+          tag: "Sport",
+          tagClass: "sport",
+          icon: "🧘",
+          day: "Samstag",
+          time: "12:00 – 12:45 Uhr",
+          location: "TBA",
+        },
+        kinderyoga_2: {
+          title: "Kinderyoga",
+          tag: "Sport",
+          tagClass: "sport",
+          icon: "🧘",
+          day: "Samstag",
+          time: "13:00 – 14:00 Uhr",
+          location: "TBA",
+        },
       };
 
       // ════════════════════════════════════════════════════
@@ -990,6 +1081,78 @@
             maxWaitlist: 10,
             mainFree: 30,
             waitlistFree: 10,
+          },
+          sexuelle_gewalt: {
+            mainCount: 0,
+            maxMain: 15,
+            waitlistCount: 0,
+            maxWaitlist: 5,
+            mainFree: 15,
+            waitlistFree: 5,
+          },
+          kommunikation: {
+            mainCount: 0,
+            maxMain: 15,
+            waitlistCount: 0,
+            maxWaitlist: 5,
+            mainFree: 15,
+            waitlistFree: 5,
+          },
+          zumba_do: {
+            mainCount: 0,
+            maxMain: 20,
+            waitlistCount: 0,
+            maxWaitlist: 10,
+            mainFree: 20,
+            waitlistFree: 10,
+          },
+          zumba_fr: {
+            mainCount: 0,
+            maxMain: 20,
+            waitlistCount: 0,
+            maxWaitlist: 10,
+            mainFree: 20,
+            waitlistFree: 10,
+          },
+          bachata_do: {
+            mainCount: 0,
+            maxMain: 20,
+            waitlistCount: 0,
+            maxWaitlist: 10,
+            mainFree: 20,
+            waitlistFree: 10,
+          },
+          bachata_fr: {
+            mainCount: 0,
+            maxMain: 20,
+            waitlistCount: 0,
+            maxWaitlist: 10,
+            mainFree: 20,
+            waitlistFree: 10,
+          },
+          selbstverteidigung: {
+            mainCount: 0,
+            maxMain: 25,
+            waitlistCount: 0,
+            maxWaitlist: 5,
+            mainFree: 25,
+            waitlistFree: 5,
+          },
+          kinderyoga_1: {
+            mainCount: 0,
+            maxMain: 15,
+            waitlistCount: 0,
+            maxWaitlist: 5,
+            mainFree: 15,
+            waitlistFree: 5,
+          },
+          kinderyoga_2: {
+            mainCount: 0,
+            maxMain: 15,
+            waitlistCount: 0,
+            maxWaitlist: 5,
+            mainFree: 15,
+            waitlistFree: 5,
           },
         };
         renderCards();
